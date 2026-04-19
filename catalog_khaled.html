@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كتالوج العقارات – خالد الجندي المستشار العقاري</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9973A;--gold2:#E8B84B;--dark:#0D1117;--dark2:#161B22;--dark3:#1C2333;
+  --card:#1A2236;--text:#E6EDF3;--muted:#8B949E;--green:#25D366;--green2:#1DA851;
+  --border:rgba(201,151,58,.2);--r:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:
+  radial-gradient(ellipse 70% 50% at 10% 10%,rgba(201,151,58,.07) 0%,transparent 60%),
+  radial-gradient(ellipse 50% 40% at 90% 80%,rgba(37,211,102,.04) 0%,transparent 50%);pointer-events:none}
+
+/* ── AD SPLASH ── */
+#adSplash{position:fixed;inset:0;z-index:9999;background:#0D1117;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+.ad-text-box{text-align:center;padding:40px 24px;max-width:400px}
+.ad-text-box .ad-logo{font-size:56px;margin-bottom:16px}
+.ad-text-box h2{font-size:26px;font-weight:900;color:var(--gold);margin-bottom:10px}
+.ad-text-box p{font-size:15px;color:var(--muted);line-height:1.8}
+.ad-bar{width:100%;max-width:400px;padding:0 24px}
+.ad-label{font-size:12px;color:var(--muted);text-align:center;margin-bottom:8px}
+.ad-progress{height:4px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden}
+.ad-fill{height:100%;background:var(--gold);border-radius:4px;width:0}
+.ad-skip{background:none;border:1px solid rgba(255,255,255,.25);color:var(--muted);font-family:'Cairo';font-size:13px;padding:8px 22px;border-radius:50px;cursor:pointer;margin-top:12px;transition:all .2s;display:block;margin-inline:auto}
+.ad-skip:not([disabled]):hover{border-color:var(--gold);color:var(--gold)}
+.ad-skip:disabled{opacity:.4;cursor:default}
+
+/* ── HEADER ── */
+header{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{font-size:18px;font-weight:900;color:var(--gold);white-space:nowrap}
+.search-wrap{flex:1;min-width:180px;position:relative}
+.search-wrap input{width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:50px;padding:9px 18px 9px 40px;color:var(--text);font-family:'Cairo';font-size:13px;outline:none;transition:border-color .2s}
+.search-wrap input:focus{border-color:var(--gold)}
+.search-wrap input::placeholder{color:var(--muted)}
+.s-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:14px}
+
+/* ── FILTERS ── */
+.filters{position:relative;z-index:1;background:var(--dark2);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;flex-direction:column;gap:12px}
+.frow{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.flabel{font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap;padding-top:7px;min-width:55px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{background:var(--dark3);border:1px solid var(--border);border-radius:50px;padding:5px 13px;font-family:'Cairo';font-size:11px;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap}
+.chip:hover{border-color:var(--gold);color:var(--gold)}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#000;font-weight:700}
+.prow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pinput{background:var(--dark3);border:1px solid var(--border);border-radius:9px;padding:6px 11px;color:var(--text);font-family:'Cairo';font-size:12px;width:130px;outline:none;transition:border-color .2s}
+.pinput:focus{border-color:var(--gold)}
+.psep{color:var(--muted);font-size:12px}
+.breset{background:none;border:1px solid rgba(248,81,73,.35);color:#F85149;border-radius:50px;padding:5px 14px;font-family:'Cairo';font-size:11px;cursor:pointer;transition:all .2s}
+.breset:hover{background:rgba(248,81,73,.08)}
+
+/* ── STATS ── */
+.stats{position:relative;z-index:1;display:flex;gap:18px;flex-wrap:wrap;padding:10px 20px;font-size:11px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.04)}
+.stats strong{color:var(--gold)}
+
+/* ── GRID ── */
+.grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:16px;padding:16px 20px 70px}
+
+/* ── CARD ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s,border-color .25s;animation:fu .35s ease both}
+.card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.4),0 0 0 1px var(--gold);border-color:var(--gold)}
+.card.sold{opacity:.65}
+.card.sold:hover{transform:none;box-shadow:none;border-color:var(--border)}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.thumb{position:relative;aspect-ratio:16/9;background:var(--dark3);overflow:hidden;cursor:pointer}
+.thumb iframe{width:100%;height:100%;border:none;pointer-events:none}
+.nv{display:flex;align-items:center;justify-content:center;height:100%;font-size:44px;color:var(--muted)}
+.ov{position:absolute;inset:0;background:rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center;transition:background .2s}
+.thumb:hover .ov{background:rgba(0,0,0,.08)}
+.pbtn{width:50px;height:50px;background:rgba(201,151,58,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 4px 18px rgba(201,151,58,.4);transition:transform .2s}
+.thumb:hover .pbtn{transform:scale(1.1)}
+.bdgs{position:absolute;top:8px;right:8px;display:flex;gap:5px;flex-wrap:wrap}
+.b{background:rgba(13,17,23,.85);backdrop-filter:blur(6px);border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;border:1px solid rgba(255,255,255,.08)}
+.bt{color:var(--gold);border-color:rgba(201,151,58,.35)}
+.bd{color:#58A6FF;border-color:rgba(88,166,255,.25)}
+.bok{color:#3FB950;border-color:rgba(63,185,80,.25)}
+.brs{color:#E3B341;border-color:rgba(227,179,65,.25)}
+.bsl{color:#F85149;border-color:rgba(248,81,73,.25)}
+.ribbon{position:absolute;inset:0;background:rgba(0,0,0,.52);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#F85149;letter-spacing:1px}
+
+.cbody{padding:13px;display:flex;flex-direction:column;gap:8px;flex:1}
+.ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+.cid{font-size:10px;color:var(--muted)}
+.cloc{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:3px;margin-top:2px}
+.cprice{font-size:16px;font-weight:900;color:var(--gold);text-align:left;white-space:nowrap}
+.cprice small{font-size:10px;font-weight:400;color:var(--muted)}
+.specs{display:flex;gap:10px;flex-wrap:wrap;padding:7px 0;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+.sp{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:3px}
+.sp strong{color:var(--text);font-size:12px}
+.desc{font-size:12px;line-height:1.7;color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.desc.exp{-webkit-line-clamp:unset}
+.tdesc{background:none;border:none;color:var(--gold);font-size:11px;cursor:pointer;font-family:'Cairo';padding:0;text-align:right}
+.bwa{display:flex;align-items:center;justify-content:center;gap:7px;background:var(--green);color:#fff;font-family:'Cairo';font-weight:700;font-size:13px;border:none;border-radius:9px;padding:10px;cursor:pointer;text-decoration:none;margin-top:auto;transition:background .2s,transform .1s;box-shadow:0 3px 12px rgba(37,211,102,.18)}
+.bwa:hover{background:var(--green2);transform:translateY(-1px)}
+.snote{text-align:center;font-size:11px;color:#F85149;padding:9px;background:rgba(248,81,73,.07);border-radius:7px;margin-top:auto}
+
+/* ── EMPTY ── */
+.empty{grid-column:1/-1;text-align:center;padding:70px 20px;color:var(--muted)}
+.empty .eico{font-size:52px;margin-bottom:12px}
+.empty h3{font-size:17px;color:var(--text);margin-bottom:6px}
+
+/* ── VIDEO MODAL ── */
+.vmodal{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:16px}
+.vmodal.open{display:flex}
+.vbox{background:var(--dark2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:760px;overflow:hidden;position:relative}
+.vcls{position:absolute;top:10px;left:10px;z-index:10;background:rgba(0,0,0,.6);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer;line-height:32px;text-align:center}
+.vframe{aspect-ratio:16/9;width:100%}
+.vframe iframe{width:100%;height:100%;border:none;display:block}
+.vinfo{padding:16px 18px}
+.vinfo h3{font-size:15px;font-weight:700;margin-bottom:4px}
+.vinfo p{font-size:12px;color:var(--muted);line-height:1.7}
+.vwa{display:flex;align-items:center;justify-content:center;gap:7px;background:var(--green);color:#fff;font-family:'Cairo';font-weight:700;font-size:13px;border:none;border-radius:9px;padding:10px;cursor:pointer;margin-top:10px;width:100%;text-decoration:none;transition:background .2s}
+.vwa:hover{background:var(--green2)}
+
+/* ── ADD MODAL ── */
+.amodal{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:16px}
+.amodal.open{display:flex}
+.abox{background:var(--dark2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:520px;padding:22px;max-height:92vh;overflow-y:auto}
+.abox h2{font-size:17px;font-weight:900;color:var(--gold);margin-bottom:16px}
+.arow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:11px}
+.fg label{font-size:11px;color:var(--muted);font-weight:700}
+.fg input,.fg select,.fg textarea{background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 11px;color:var(--text);font-family:'Cairo';font-size:12px;outline:none;transition:border-color .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold)}
+.fg textarea{resize:vertical;min-height:68px}
+.fg select option{background:var(--dark2)}
+.afact{display:flex;gap:10px;margin-top:4px}
+.bsave{flex:1;background:var(--gold);color:#000;border:none;border-radius:8px;padding:10px;font-family:'Cairo';font-weight:700;font-size:13px;cursor:pointer;transition:background .2s}
+.bsave:hover{background:var(--gold2)}
+.bcan{background:var(--dark3);color:var(--muted);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-family:'Cairo';font-size:13px;cursor:pointer}
+
+/* ── FAB ── */
+.fab{position:fixed;bottom:22px;left:22px;z-index:50;background:var(--gold);color:#000;font-family:'Cairo';font-weight:900;font-size:12px;border:none;border-radius:50px;padding:12px 18px;cursor:pointer;display:flex;align-items:center;gap:6px;box-shadow:0 6px 22px rgba(201,151,58,.4);transition:transform .2s,box-shadow .2s}
+.fab:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(201,151,58,.5)}
+
+/* ── WA SVG ── */
+.wico{flex-shrink:0}
+
+@media(max-width:580px){
+  header{gap:10px}
+  .search-wrap{min-width:100%;order:3}
+  .grid{grid-template-columns:1fr;padding:12px 12px 70px}
+  .arow{grid-template-columns:1fr}
+  .pinput{width:110px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ AD SPLASH ══ -->
+<div id="adSplash">
+  <div class="ad-text-box">
+    <div class="ad-logo">🏠</div>
+    <h2>خالد الجندي المستشار العقاري</h2>
+    <p>أفضل عقارات تمليك وإيجار<br>بأفضل الأسعار – تواصل معنا الآن</p>
+  </div>
+  <div class="ad-bar">
+    <div class="ad-label">يبدأ الكتالوج بعد <span id="adSec">5</span> ثوانٍ</div>
+    <div class="ad-progress"><div class="ad-fill" id="adFill"></div></div>
+    <button class="ad-skip" id="adSkip" disabled>تخطي ▶</button>
+  </div>
+</div>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="logo">🏠 خالد الجندي المستشار العقاري</div>
+  <div class="search-wrap">
+    <span class="s-icon">🔍</span>
+    <input type="text" id="srch" placeholder="ابحث بالمنطقة، النوع، السعر...">
+  </div>
+</header>
+
+<!-- ══ FILTERS ══ -->
+<div class="filters">
+  <div class="frow">
+    <span class="flabel">الصفقة</span>
+    <div class="chips" id="cDeal">
+      <div class="chip on" data-v="all">الكل</div>
+      <div class="chip" data-v="تمليك">🏠 تمليك</div>
+      <div class="chip" data-v="إيجار">🔑 إيجار</div>
+    </div>
+  </div>
+  <div class="frow">
+    <span class="flabel">النوع</span>
+    <div class="chips" id="cType">
+      <div class="chip on" data-v="all">الكل</div>
+      <div class="chip" data-v="شقة فاضية">شقة فاضية</div>
+      <div class="chip" data-v="شقة مفروشة">شقة مفروشة</div>
+      <div class="chip" data-v="فيلا">فيلا</div>
+      <div class="chip" data-v="دوبلكس">دوبلكس</div>
+      <div class="chip" data-v="محل فاضي">محل فاضي</div>
+      <div class="chip" data-v="محل مفروش">محل مفروش</div>
+      <div class="chip" data-v="معرض">معرض</div>
+      <div class="chip" data-v="بدروم">بدروم</div>
+      <div class="chip" data-v="مكتب">مكتب</div>
+      <div class="chip" data-v="أرض">أرض</div>
+    </div>
+  </div>
+  <div class="frow">
+    <span class="flabel">الحالة</span>
+    <div class="chips" id="cStat">
+      <div class="chip on" data-v="all">الكل</div>
+      <div class="chip" data-v="متاح">✅ متاح</div>
+      <div class="chip" data-v="محجوز">🔒 محجوز</div>
+      <div class="chip" data-v="مباع/مؤجر">❌ مباع/مؤجر</div>
+    </div>
+  </div>
+  <div class="frow">
+    <span class="flabel">السعر</span>
+    <div class="prow">
+      <input class="pinput" type="number" id="pMin" placeholder="من (جنيه)">
+      <span class="psep">←</span>
+      <input class="pinput" type="number" id="pMax" placeholder="إلى (جنيه)">
+      <button class="breset" onclick="resetAll()">↺ مسح الكل</button>
+    </div>
+  </div>
+</div>
+
+<div class="stats">
+  <span>النتائج: <strong id="sCnt">0</strong></span>
+  <span>متاح: <strong id="sOk">0</strong></span>
+  <span>محجوز: <strong id="sRs">0</strong></span>
+  <span>مباع/مؤجر: <strong id="sSl">0</strong></span>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<!-- ══ VIDEO MODAL ══ -->
+<div class="vmodal" id="vM">
+  <div class="vbox">
+    <button class="vcls" onclick="closeV()">✕</button>
+    <div class="vframe"><iframe id="vFr" allowfullscreen></iframe></div>
+    <div class="vinfo">
+      <h3 id="vTi"></h3><p id="vDe"></p>
+      <a id="vWa" class="vwa" href="#" target="_blank">
+        <svg class="wico" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.122 1.523 5.854L.057 23.882a.5.5 0 00.614.635l6.155-1.48A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.804a9.791 9.791 0 01-5.022-1.38l-.36-.214-3.733.897.934-3.617-.234-.371A9.803 9.803 0 012.196 12C2.196 6.578 6.578 2.196 12 2.196c5.421 0 9.804 4.382 9.804 9.804 0 5.421-4.383 9.804-9.804 9.804z"/></svg>
+        تواصل على واتساب
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADD MODAL ══ -->
+<div class="amodal" id="aM">
+  <div class="abox">
+    <h2>➕ إضافة عقار جديد</h2>
+    <div class="arow">
+      <div class="fg"><label>كود العقار</label><input id="fCd" placeholder="P007"></div>
+      <div class="fg"><label>نوع الصفقة</label><select id="fDl"><option>تمليك</option><option>إيجار</option></select></div>
+    </div>
+    <div class="fg"><label>نوع العقار</label>
+      <select id="fTy">
+        <option>شقة فاضية</option><option>شقة مفروشة</option><option>فيلا</option>
+        <option>دوبلكس</option><option>محل فاضي</option><option>محل مفروش</option>
+        <option>معرض</option><option>بدروم</option><option>مكتب</option><option>أرض</option>
+      </select>
+    </div>
+    <div class="fg"><label>المنطقة / العنوان</label><input id="fLc" placeholder="مثال: المعادي – شارع النيل"></div>
+    <div class="arow">
+      <div class="fg"><label>السعر (جنيه)</label><input id="fPr" type="number" placeholder="2500000"></div>
+      <div class="fg"><label>المساحة (م²)</label><input id="fAr" placeholder="120"></div>
+    </div>
+    <div class="arow">
+      <div class="fg"><label>الغرف</label><input id="fRm" placeholder="3"></div>
+      <div class="fg"><label>الحالة</label><select id="fSt"><option>متاح</option><option>محجوز</option><option>مباع/مؤجر</option></select></div>
+    </div>
+    <div class="fg"><label>🎬 لينك فيديو YouTube</label><input id="fVd" placeholder="https://youtu.be/XXXX"></div>
+    <div class="fg"><label>📝 وصف العقار للعميل</label><textarea id="fDs" placeholder="اكتب وصف كامل..."></textarea></div>
+    <div class="afact">
+      <button class="bsave" onclick="saveProp()">💾 حفظ العقار</button>
+      <button class="bcan" onclick="closeA()">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openA()">➕ إضافة عقار</button>
+
+<script>
+// ══ CONFIG ══════════════════════════════
+const MY_WA   = "201025647669";
+const AD_SECS = 2;
+// ════════════════════════════════════════
+
+// ── AD ──────────────────────────────────
+(()=>{
+  const splash=document.getElementById("adSplash");
+  const fill=document.getElementById("adFill");
+  const sec=document.getElementById("adSec");
+  const skip=document.getElementById("adSkip");
+  let el=0; const iv=50;
+  const t=setInterval(()=>{
+    el+=iv;
+    const p=Math.min(el/(AD_SECS*1000)*100,100);
+    fill.style.width=p+"%"; fill.style.transition="width "+iv+"ms linear";
+    const r=Math.ceil((AD_SECS*1000-el)/1000);
+    sec.textContent=Math.max(r,0);
+    if(el>=3000){skip.disabled=false;}
+    if(el>=AD_SECS*1000){clearInterval(t);done();}
+  },iv);
+  skip.addEventListener("click",()=>{clearInterval(t);done();});
+  function done(){splash.style.cssText="opacity:0;transition:opacity .4s";setTimeout(()=>splash.remove(),400);}
+})();
+
+// ── DATA ────────────────────────────────
+let props=JSON.parse(localStorage.getItem("re3")||"null")||[
+  {id:"P001",deal:"تمليك",type:"شقة فاضية",loc:"المعادي – شارع النيل",price:2500000,area:"120",rooms:"3",status:"متاح",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"شقة 120م بالمعادي، 3 غرف، تشطيب سوبر لوكس، إطلالة جزئية على النيل، الدور الخامس بأسانسير، تسليم فوري."},
+  {id:"P002",deal:"تمليك",type:"فيلا",loc:"التجمع الخامس – الحي الأول",price:8000000,area:"350",rooms:"5",status:"متاح",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"فيلا 350م بالتجمع، 5 غرف، حديقة خاصة، جراج 2 سيارة، تشطيب كامل."},
+  {id:"P003",deal:"إيجار",type:"شقة مفروشة",loc:"مدينة نصر – الحجاز",price:8000,area:"110",rooms:"3",status:"متاح",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"شقة مفروشة 110م بمدينة نصر، 3 غرف، تكييفات، قريبة من المواصلات."},
+  {id:"P004",deal:"إيجار",type:"محل فاضي",loc:"مصر الجديدة – ميدان الحجاز",price:15000,area:"80",rooms:"—",status:"محجوز",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"محل فاضي 80م بمصر الجديدة على الميدان، واجهة زجاجية، مناسب لكل الأنشطة."},
+  {id:"P005",deal:"تمليك",type:"دوبلكس",loc:"الشيخ زايد – الحي 11",price:4500000,area:"220",rooms:"4",status:"مباع/مؤجر",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"دوبلكس 220م بالشيخ زايد، 4 غرف، تراس كبير. (تم البيع)"},
+  {id:"P006",deal:"إيجار",type:"بدروم",loc:"العباسية – شارع رمسيس",price:5000,area:"60",rooms:"—",status:"متاح",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"بدروم 60م صالح للتخزين أو ورشة، دخول مستقل."},
+  {id:"P007",deal:"إيجار",type:"معرض",loc:"هليوبوليس – شارع الهرم",price:22000,area:"150",rooms:"—",status:"متاح",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"معرض 150م بهليوبوليس، واجهة زجاجية كاملة، موقع حيوي على الشارع الرئيسي."},
+];
+const save=()=>localStorage.setItem("re3",JSON.stringify(props));
+
+// ── STATE ────────────────────────────────
+let fDeal="all",fType="all",fStat="all";
+
+function initChips(id,cb){
+  document.getElementById(id).querySelectorAll(".chip").forEach(c=>{
+    c.addEventListener("click",()=>{
+      document.getElementById(id).querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));
+      c.classList.add("on"); cb(c.dataset.v); refresh();
+    });
+  });
+}
+initChips("cDeal",v=>fDeal=v);
+initChips("cType",v=>fType=v);
+initChips("cStat",v=>fStat=v);
+document.getElementById("srch").addEventListener("input",refresh);
+document.getElementById("pMin").addEventListener("input",refresh);
+document.getElementById("pMax").addEventListener("input",refresh);
+
+function resetAll(){
+  fDeal="all";fType="all";fStat="all";
+  ["cDeal","cType","cStat"].forEach(id=>{
+    const cs=document.getElementById(id).querySelectorAll(".chip");
+    cs.forEach(c=>c.classList.remove("on")); cs[0].classList.add("on");
+  });
+  document.getElementById("srch").value="";
+  document.getElementById("pMin").value="";
+  document.getElementById("pMax").value="";
+  refresh();
+}
+
+// ── FILTER ──────────────────────────────
+function getF(){
+  const q=document.getElementById("srch").value.trim().toLowerCase();
+  const mn=parseFloat(document.getElementById("pMin").value)||0;
+  const mx=parseFloat(document.getElementById("pMax").value)||Infinity;
+  return props.filter(p=>{
+    if(fDeal!=="all"&&p.deal!==fDeal) return false;
+    if(fType!=="all"&&p.type!==fType) return false;
+    if(fStat!=="all"&&p.status!==fStat) return false;
+    if(p.price<mn||p.price>mx) return false;
+    if(q&&![p.loc,p.type,p.deal,p.desc,p.id,String(p.price)].some(x=>x.toLowerCase().includes(q))) return false;
+    return true;
+  });
+}
+
+// ── HELPERS ─────────────────────────────
+function emb(u){if(!u)return"";const m=u.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);return m?`https://www.youtube.com/embed/${m[1]}`:u;}
+function fmt(p){return p>=1000000?(p/1000000).toFixed(p%1000000===0?0:1)+" مليون":p.toLocaleString("ar-EG");}
+function wa(p){return`https://wa.me/${MY_WA}?text=${encodeURIComponent(`السلام عليكم، أنا مهتم بـ${p.type} (${p.id}) في ${p.loc}. ممكن تفاصيل؟`)}`;}
+function sbdg(s){return s==="متاح"?`<span class="b bok">✅ متاح</span>`:s==="محجوز"?`<span class="b brs">🔒 محجوز</span>`:`<span class="b bsl">❌ مباع/مؤجر</span>`;}
+const wasvg=`<svg class="wico" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.122 1.523 5.854L.057 23.882a.5.5 0 00.614.635l6.155-1.48A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.804a9.791 9.791 0 01-5.022-1.38l-.36-.214-3.733.897.934-3.617-.234-.371A9.803 9.803 0 012.196 12C2.196 6.578 6.578 2.196 12 2.196c5.421 0 9.804 4.382 9.804 9.804 0 5.421-4.383 9.804-9.804 9.804z"/></svg>`;
+
+// ── RENDER ───────────────────────────────
+let cur=[];
+function render(list){
+  const g=document.getElementById("grid"); g.innerHTML="";
+  if(!list.length){g.innerHTML=`<div class="empty"><div class="eico">🔍</div><h3>مفيش نتائج</h3><p>جرب تغير الفلاتر</p></div>`;return;}
+  list.forEach((p,i)=>{
+    const sold=p.status==="مباع/مؤجر";
+    const e=emb(p.video);
+    const c=document.createElement("div");
+    c.className="card"+(sold?" sold":"");
+    c.style.animationDelay=(i*.05)+"s";
+    c.innerHTML=`
+      <div class="thumb"${!sold?` onclick="openV(${i})"`:""}> 
+        ${e?`<iframe src="${e}?mute=1&controls=0&modestbranding=1" loading="lazy" allowfullscreen></iframe>`:`<div class="nv">🏠</div>`}
+        <div class="ov">
+          <div class="bdgs">
+            <span class="b bd">${p.deal}</span>
+            <span class="b bt">${p.type}</span>
+            ${sbdg(p.status)}
+          </div>
+          ${!sold&&e?`<div class="pbtn">▶</div>`:""}
+        </div>
+        ${sold?`<div class="ribbon">تم ${p.deal==="إيجار"?"التأجير":"البيع"}</div>`:""}
+      </div>
+      <div class="cbody">
+        <div class="ctop">
+          <div><div class="cid">${p.id}</div><div class="cloc">📍 ${p.loc}</div></div>
+          <div class="cprice">${fmt(p.price)}<br><small>${p.deal==="إيجار"?"ج/شهر":"جنيه"}</small></div>
+        </div>
+        <div class="specs">
+          ${p.area?`<div class="sp">📐 <strong>${p.area}</strong> م²</div>`:""}
+          ${p.rooms&&p.rooms!=="—"?`<div class="sp">🛏 <strong>${p.rooms}</strong> غرف</div>`:""}
+        </div>
+        <p class="desc" id="d${i}">${p.desc}</p>
+        <button class="tdesc" onclick="tog(${i})">عرض أكتر ▾</button>
+        ${!sold
+          ?`<a class="bwa" href="${wa(p)}" target="_blank">${wasvg} تواصل على واتساب</a>`
+          :`<div class="snote">✅ تم ${p.deal==="إيجار"?"التأجير":"البيع"} – شوف عقارات تانية متاحة</div>`
+        }
+      </div>`;
+    g.appendChild(c);
+  });
+}
+
+function tog(i){const el=document.getElementById("d"+i),b=el.nextElementSibling;el.classList.toggle("exp");b.textContent=el.classList.contains("exp")?"عرض أقل ▴":"عرض أكتر ▾";}
+
+function refresh(){
+  cur=getF(); render(cur);
+  document.getElementById("sCnt").textContent=cur.length;
+  document.getElementById("sOk").textContent=cur.filter(p=>p.status==="متاح").length;
+  document.getElementById("sRs").textContent=cur.filter(p=>p.status==="محجوز").length;
+  document.getElementById("sSl").textContent=cur.filter(p=>p.status==="مباع/مؤجر").length;
+}
+
+// ── VIDEO MODAL ──────────────────────────
+function openV(i){
+  const p=cur[i]; if(!p)return;
+  document.getElementById("vFr").src=emb(p.video)+"?autoplay=1";
+  document.getElementById("vTi").textContent=`${p.type} – ${p.loc}`;
+  document.getElementById("vDe").textContent=p.desc;
+  document.getElementById("vWa").href=wa(p);
+  document.getElementById("vM").classList.add("open");
+}
+function closeV(){document.getElementById("vM").classList.remove("open");document.getElementById("vFr").src="";}
+document.getElementById("vM").addEventListener("click",e=>{if(e.target===e.currentTarget)closeV();});
+
+// ── ADMIN PASSWORD ───────────────────────
+const ADMIN_PASS = "khaled2025"; // ← غيّر الباسورد هنا
+let isAdmin = false;
+function checkAdmin(cb){
+  if(isAdmin){cb();return;}
+  const pw=prompt("🔐 أدخل كلمة المرور:");
+  if(pw===ADMIN_PASS){isAdmin=true;cb();}
+  else if(pw!==null){alert("❌ كلمة المرور غلط");}
+}
+
+// ── ADD MODAL ────────────────────────────
+function openA(){checkAdmin(()=>document.getElementById("aM").classList.add("open"));}
+function closeA(){document.getElementById("aM").classList.remove("open");}
+function saveProp(){
+  const cd=document.getElementById("fCd").value.trim();
+  const lc=document.getElementById("fLc").value.trim();
+  const pr=parseFloat(document.getElementById("fPr").value)||0;
+  if(!cd||!lc||!pr){alert("⚠️ الكود، المنطقة، والسعر مطلوبين");return;}
+  props.unshift({id:cd,deal:document.getElementById("fDl").value,type:document.getElementById("fTy").value,loc:lc,price:pr,area:document.getElementById("fAr").value.trim(),rooms:document.getElementById("fRm").value.trim()||"—",status:document.getElementById("fSt").value,video:document.getElementById("fVd").value.trim(),desc:document.getElementById("fDs").value.trim()});
+  save(); closeA(); refresh();
+  ["fCd","fLc","fPr","fAr","fRm","fVd","fDs"].forEach(id=>document.getElementById(id).value="");
+}
+document.getElementById("aM").addEventListener("click",e=>{if(e.target===e.currentTarget)closeA();});
+
+refresh();
+</script>
+</body>
+</html>
