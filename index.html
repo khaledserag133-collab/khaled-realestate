@@ -140,7 +140,6 @@ header{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.95);backdrop-
 .fab{position:fixed;bottom:22px;left:22px;z-index:50;background:var(--gold);color:#000;font-family:'Cairo';font-weight:900;font-size:12px;border:none;border-radius:50px;padding:12px 18px;cursor:pointer;display:flex;align-items:center;gap:6px;box-shadow:0 6px 22px rgba(201,151,58,.4);transition:transform .2s,box-shadow .2s}
 .fab:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(201,151,58,.5)}
 
-/* ── WA SVG ── */
 .wico{flex-shrink:0}
 
 @media(max-width:580px){
@@ -162,7 +161,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.95);backdrop-
     <p>أفضل عقارات تمليك وإيجار<br>بأفضل الأسعار – تواصل معنا الآن</p>
   </div>
   <div class="ad-bar">
-    <div class="ad-label">يبدأ الكتالوج بعد <span id="adSec">5</span> ثوانٍ</div>
+    <div class="ad-label">يبدأ الكتالوج بعد <span id="adSec">3</span> ثوانٍ</div>
     <div class="ad-progress"><div class="ad-fill" id="adFill"></div></div>
     <button class="ad-skip" id="adSkip" disabled>تخطي ▶</button>
   </div>
@@ -252,7 +251,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.95);backdrop-
   <div class="abox">
     <h2>➕ إضافة عقار جديد</h2>
     <div class="arow">
-      <div class="fg"><label>كود العقار</label><input id="fCd" placeholder="P007"></div>
+      <div class="fg"><label>كود العقار</label><input id="fCd" placeholder="P002"></div>
       <div class="fg"><label>نوع الصفقة</label><select id="fDl"><option>تمليك</option><option>إيجار</option></select></div>
     </div>
     <div class="fg"><label>نوع العقار</label>
@@ -262,9 +261,9 @@ header{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.95);backdrop-
         <option>معرض</option><option>بدروم</option><option>مكتب</option><option>أرض</option>
       </select>
     </div>
-    <div class="fg"><label>المنطقة / العنوان</label><input id="fLc" placeholder="مثال: المعادي – شارع النيل"></div>
+    <div class="fg"><label>المنطقة / العنوان</label><input id="fLc" placeholder="مثال: حي الجامعة – المنصورة"></div>
     <div class="arow">
-      <div class="fg"><label>السعر (جنيه)</label><input id="fPr" type="number" placeholder="2500000"></div>
+      <div class="fg"><label>السعر (جنيه)</label><input id="fPr" type="number" placeholder="2200000"></div>
       <div class="fg"><label>المساحة (م²)</label><input id="fAr" placeholder="120"></div>
     </div>
     <div class="arow">
@@ -285,7 +284,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.95);backdrop-
 <script>
 // ══ CONFIG ══════════════════════════════
 const MY_WA   = "201025647669";
-const AD_SECS = 2;
+const AD_SECS = 3;
 // ════════════════════════════════════════
 
 // ── AD ──────────────────────────────────
@@ -309,16 +308,30 @@ const AD_SECS = 2;
 })();
 
 // ── DATA ────────────────────────────────
-let props=JSON.parse(localStorage.getItem("re3")||"null")||[
-  {id:"P001",deal:"تمليك",type:"شقة فاضية",loc:"المعادي – شارع النيل",price:2500000,area:"120",rooms:"3",status:"متاح",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"شقة 120م بالمعادي، 3 غرف، تشطيب سوبر لوكس، إطلالة جزئية على النيل، الدور الخامس بأسانسير، تسليم فوري."},
-  {id:"P002",deal:"تمليك",type:"فيلا",loc:"التجمع الخامس – الحي الأول",price:8000000,area:"350",rooms:"5",status:"متاح",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"فيلا 350م بالتجمع، 5 غرف، حديقة خاصة، جراج 2 سيارة، تشطيب كامل."},
-  {id:"P003",deal:"إيجار",type:"شقة مفروشة",loc:"مدينة نصر – الحجاز",price:8000,area:"110",rooms:"3",status:"متاح",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"شقة مفروشة 110م بمدينة نصر، 3 غرف، تكييفات، قريبة من المواصلات."},
-  {id:"P004",deal:"إيجار",type:"محل فاضي",loc:"مصر الجديدة – ميدان الحجاز",price:15000,area:"80",rooms:"—",status:"محجوز",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"محل فاضي 80م بمصر الجديدة على الميدان، واجهة زجاجية، مناسب لكل الأنشطة."},
-  {id:"P005",deal:"تمليك",type:"دوبلكس",loc:"الشيخ زايد – الحي 11",price:4500000,area:"220",rooms:"4",status:"مباع/مؤجر",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"دوبلكس 220م بالشيخ زايد، 4 غرف، تراس كبير. (تم البيع)"},
-  {id:"P006",deal:"إيجار",type:"بدروم",loc:"العباسية – شارع رمسيس",price:5000,area:"60",rooms:"—",status:"متاح",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"بدروم 60م صالح للتخزين أو ورشة، دخول مستقل."},
-  {id:"P007",deal:"إيجار",type:"معرض",loc:"هليوبوليس – شارع الهرم",price:22000,area:"150",rooms:"—",status:"متاح",video:"https://www.youtube.com/embed/dQw4w9WgXcQ",desc:"معرض 150م بهليوبوليس، واجهة زجاجية كاملة، موقع حيوي على الشارع الرئيسي."},
+// ⚠️ البيانات محفوظة في الكود — تظهر لكل الزوار
+const DEFAULT_PROPS = [
+  {
+    id:"P001",
+    deal:"تمليك",
+    type:"شقة مفروشة",
+    loc:"حي الجامعة – المنصورة | شارع معاذ بن جبل",
+    price:2200000,
+    area:"120",
+    rooms:"2",
+    status:"متاح",
+    video:"",
+    desc:"2,200,000 جنيه شامل العفش بالكامل والتكييفات\n📍 حي الجامعة – المنصورة\n📌 شارع معاذ بن جبل\n\nمشروع استثماري جاهز بدخل فوري:\nشقة 120م² مؤجرة مفروش بـ10,000 جنيه شهريًا (قابل للزيادة) — عقد قائم من سنة ونصف.\n\nالتقسيم: غرفتين كبار – صالة قطعتين ونص – مطبخ كامل – حمام\n\n✔ حصة في الأرض\n✔ عداد كهرباء ومياه\n✔ خزان خاص\n✔ 3 تكييفات سبليت\n✔ باب مصفح\n\n📹 متاح فيديو كامل على واتساب\n📲 التواصل واتس فقط: 01025647669\nأ. خالد الجندي"
+  }
 ];
-const save=()=>localStorage.setItem("re3",JSON.stringify(props));
+
+// لو في بيانات محفوظة من الأدمن تُضاف فوق البيانات الثابتة
+const extraProps = JSON.parse(localStorage.getItem("re3_extra")||"[]");
+let props = [...extraProps, ...DEFAULT_PROPS];
+const save = () => {
+  // نحفظ بس العقارات المضافة يدوياً (مش الـ default)
+  const ids = new Set(DEFAULT_PROPS.map(p=>p.id));
+  localStorage.setItem("re3_extra", JSON.stringify(props.filter(p=>!ids.has(p.id))));
+};
 
 // ── STATE ────────────────────────────────
 let fDeal="all",fType="all",fStat="all";
@@ -383,8 +396,9 @@ function render(list){
     const c=document.createElement("div");
     c.className="card"+(sold?" sold":"");
     c.style.animationDelay=(i*.05)+"s";
+    const descHtml = p.desc.replace(/\n/g,'<br>');
     c.innerHTML=`
-      <div class="thumb"${!sold?` onclick="openV(${i})"`:""}> 
+      <div class="thumb"${!sold&&e?` onclick="openV(${i})"`:""}> 
         ${e?`<iframe src="${e}?mute=1&controls=0&modestbranding=1" loading="lazy" allowfullscreen></iframe>`:`<div class="nv">🏠</div>`}
         <div class="ov">
           <div class="bdgs">
@@ -405,7 +419,7 @@ function render(list){
           ${p.area?`<div class="sp">📐 <strong>${p.area}</strong> م²</div>`:""}
           ${p.rooms&&p.rooms!=="—"?`<div class="sp">🛏 <strong>${p.rooms}</strong> غرف</div>`:""}
         </div>
-        <p class="desc" id="d${i}">${p.desc}</p>
+        <p class="desc" id="d${i}">${descHtml}</p>
         <button class="tdesc" onclick="tog(${i})">عرض أكتر ▾</button>
         ${!sold
           ?`<a class="bwa" href="${wa(p)}" target="_blank">${wasvg} تواصل على واتساب</a>`
@@ -439,7 +453,7 @@ function closeV(){document.getElementById("vM").classList.remove("open");documen
 document.getElementById("vM").addEventListener("click",e=>{if(e.target===e.currentTarget)closeV();});
 
 // ── ADMIN PASSWORD ───────────────────────
-const ADMIN_PASS = "khaled2025"; // ← غيّر الباسورد هنا
+const ADMIN_PASS = "khaled2025";
 let isAdmin = false;
 function checkAdmin(cb){
   if(isAdmin){cb();return;}
@@ -456,7 +470,8 @@ function saveProp(){
   const lc=document.getElementById("fLc").value.trim();
   const pr=parseFloat(document.getElementById("fPr").value)||0;
   if(!cd||!lc||!pr){alert("⚠️ الكود، المنطقة، والسعر مطلوبين");return;}
-  props.unshift({id:cd,deal:document.getElementById("fDl").value,type:document.getElementById("fTy").value,loc:lc,price:pr,area:document.getElementById("fAr").value.trim(),rooms:document.getElementById("fRm").value.trim()||"—",status:document.getElementById("fSt").value,video:document.getElementById("fVd").value.trim(),desc:document.getElementById("fDs").value.trim()});
+  const newProp={id:cd,deal:document.getElementById("fDl").value,type:document.getElementById("fTy").value,loc:lc,price:pr,area:document.getElementById("fAr").value.trim(),rooms:document.getElementById("fRm").value.trim()||"—",status:document.getElementById("fSt").value,video:document.getElementById("fVd").value.trim(),desc:document.getElementById("fDs").value.trim()};
+  props.unshift(newProp);
   save(); closeA(); refresh();
   ["fCd","fLc","fPr","fAr","fRm","fVd","fDs"].forEach(id=>document.getElementById(id).value="");
 }
